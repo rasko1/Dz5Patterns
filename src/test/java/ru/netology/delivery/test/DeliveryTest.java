@@ -36,7 +36,7 @@ class DeliveryTest {
 
     @Test
     @DisplayName("Should successful plan and replan meeting")
-    public void shouldSuccessfulPlanAndReplanMeeting() {
+     void redevelopmentDate() {
         var validUser = DataGenerator.Registration.generateUser("ru");
         var daysToAddForFirstMeeting = 3;
         var firstMeetingDate = DataGenerator.generateDate(daysToAddForFirstMeeting);
