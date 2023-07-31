@@ -5,7 +5,6 @@ import com.codeborne.selenide.logevents.SelenideLogger;
 import io.qameta.allure.selenide.AllureSelenide;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.Keys;
-import ru.netology.delivery.test.DataGenerator;
 
 import java.time.Duration;
 
@@ -36,7 +35,7 @@ class DeliveryTest {
 
     @Test
     @DisplayName("Should successful plan and replan meeting")
-    public void redevelopmentDate() {
+    public void ShouldSuccessfulplanandreplanmeeting() {
         var validUser = DataGenerator.Registration.generateUser("ru");
         var daysToAddForFirstMeeting = 3;
         var firstMeetingDate = DataGenerator.generateDate(daysToAddForFirstMeeting);
@@ -46,24 +45,22 @@ class DeliveryTest {
         $("[data-test-id=date] input").sendKeys(Keys.chord(Keys.SHIFT, Keys.HOME), Keys.BACK_SPACE);
         $("[data-test-id=date] input").setValue(firstMeetingDate);
         $("[data-test-id=name] input").setValue(validUser.getName());
-
-        $("[data-test-id='phone'] input").setValue("+79999999999");
-
+        $("[data-test-id=phone] input").setValue(validUser.getPhone());
         $("[data-test-id=agreement]").click();
 
-        $(byText("Забронировать")).click();
+        $(byText("Запланировать")).click();
         $(byText("Успешно!")).shouldBe(visible, Duration.ofSeconds(15));
         $("[data-test-id=success-notification] .notification__content")
                 .shouldHave(exactText("Встреча успешно запланирована на " + firstMeetingDate))
                 .shouldBe(visible);
         $("span[data-test-id='date'] input.input__control").sendKeys(Keys.chord(Keys.CONTROL, "a") + Keys.DELETE);
         $("[data-test-id=date] input").setValue(secondMeetingDate);
-        $(byText("Забронировать")).doubleClick();
+        $(byText("Запланировать")).doubleClick();
         $("[data-test-id=replan-notification] .notification__content")
                 .shouldHave(text("У вас уже запланирована встреча на другую дату. Перепланировать?"))
                 .shouldBe(visible);
-        $("[data-test-id=replan-notification] ..button__content").click();
-        $("[data-test-id=success-notification] ..button__content")
+        $("[data-test-id=replan-notification] .button").click();
+        $("[data-test-id=success-notification] .notification__content")
                 .shouldHave(exactText("Встреча успешно запланирована на " + secondMeetingDate))
                 .shouldBe(visible);
 
